@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+LATEST_VERSION="5.5"
+
+if [ "$DOCKER_TAG" = "latest" ]; then
+	MYSQLVERSION=$LATEST_VERSION
+else
+	MYSQLVERSION=$DOCKER_TAG
+fi
+
+if [ "$MYSQLVERSION" = "5.6" ]; then
+	BASE_TAG=10
+else
+	BASE_TAG=5.5
+fi
+
+docker build -t ${IMAGE_NAME} \
+	--build-arg=BASE_TAG=$BASE_TAG \
+	--build-arg=MYSQLVERSION=$MYSQLVERSION \
+	--build-arg=DOCKER_TAG=$DOCKER_TAG \
+	.
